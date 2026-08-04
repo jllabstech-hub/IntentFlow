@@ -1,0 +1,8 @@
+<resources>
+    <!--
+        Base application theme for IntentFlow.
+        Compose provides the actual UI shell via Scaffold and IntentFlowTheme.
+    -->
+    <style name="Theme.IntentFlow" parent="@android:style/Theme.Material.Light.NoActionBar">
+    </style>
+</resources>

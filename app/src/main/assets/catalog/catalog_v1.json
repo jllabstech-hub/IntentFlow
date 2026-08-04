@@ -1,0 +1,59 @@
+{
+  "version": {
+    "versionCode": 1,
+    "versionName": "1.0.0",
+    "timestamp": 1770000000000
+  },
+  "domains": [
+    { "domainId": "messaging", "name": "Messaging", "description": "Send and read text messages", "iconUrl": "ic_message" },
+    { "domainId": "telephony", "name": "Telephony", "description": "Make and manage phone calls", "iconUrl": "ic_phone" },
+    { "domainId": "calendar", "name": "Calendar", "description": "Schedule events and view agendas", "iconUrl": "ic_calendar" },
+    { "domainId": "alarm", "name": "Alarm", "description": "Set alarms and timers", "iconUrl": "ic_alarm" },
+    { "domainId": "settings", "name": "Settings", "description": "Control system toggles", "iconUrl": "ic_settings" },
+    { "domainId": "maps", "name": "Maps", "description": "Navigate and search locations", "iconUrl": "ic_map" },
+    { "domainId": "weather", "name": "Weather", "description": "Check current weather", "iconUrl": "ic_weather" },
+    { "domainId": "music", "name": "Music", "description": "Play music and audio", "iconUrl": "ic_music" },
+    { "domainId": "notes", "name": "Notes", "description": "Take and search notes", "iconUrl": "ic_notes" },
+    { "domainId": "reminder", "name": "Reminder", "description": "Manage task reminders", "iconUrl": "ic_reminder" }
+  ],
+  "intents": [
+    { "intentId": "messaging.send", "name": "Send Message", "description": "Sends a text message to a contact", "domain": "messaging", "examples": ["Send text to Mom", "SMS Alice I am running late", "Message Bob hello"], "version": 1 },
+    { "intentId": "phone.call", "name": "Make Phone Call", "description": "Dials a contact phone number", "domain": "telephony", "examples": ["Call John", "Dial Mom", "Phone Alice"], "version": 1 },
+    { "intentId": "calendar.create_event", "name": "Create Event", "description": "Creates a new calendar event", "domain": "calendar", "examples": ["Schedule meeting tomorrow", "Set lunch appointment with Alice", "Create event Team Sync"], "version": 1 },
+    { "intentId": "alarm.set", "name": "Set Alarm", "description": "Sets a morning or time alarm", "domain": "alarm", "examples": ["Set alarm for 7 AM", "Wake me up at 6:30 AM"], "version": 1 },
+    { "intentId": "settings.toggle_wifi", "name": "Toggle Wi-Fi", "description": "Enables or disables Wi-Fi", "domain": "settings", "examples": ["Turn on Wi-Fi", "Disable Wi-Fi"], "version": 1 },
+    { "intentId": "maps.navigate", "name": "Navigate", "description": "Starts turn-by-turn navigation", "domain": "maps", "examples": ["Navigate to Home", "Directions to San Francisco"], "version": 1 },
+    { "intentId": "weather.get_current", "name": "Get Weather", "description": "Gets local weather", "domain": "weather", "examples": ["What is the weather today?", "Check weather"], "version": 1 },
+    { "intentId": "music.play", "name": "Play Music", "description": "Plays song or playlist", "domain": "music", "examples": ["Play Jazz music", "Play song Hello"], "version": 1 },
+    { "intentId": "notes.create", "name": "Create Note", "description": "Creates a quick note", "domain": "notes", "examples": ["Take note buy groceries", "New note meeting summary"], "version": 1 },
+    { "intentId": "reminder.create", "name": "Create Reminder", "description": "Creates a task reminder", "domain": "reminder", "examples": ["Remind me to call Mom at 5 PM"], "version": 1 }
+  ],
+  "slots": [
+    { "slotName": "recipient", "intentId": "messaging.send", "displayName": "Recipient", "slotType": "CONTACT", "isRequired": true },
+    { "slotName": "message_text", "intentId": "messaging.send", "displayName": "Message", "slotType": "TEXT", "isRequired": true },
+    { "slotName": "contact", "intentId": "phone.call", "displayName": "Contact Name", "slotType": "CONTACT", "isRequired": true },
+    { "slotName": "title", "intentId": "calendar.create_event", "displayName": "Event Title", "slotType": "TEXT", "isRequired": true },
+    { "slotName": "time", "intentId": "alarm.set", "displayName": "Alarm Time", "slotType": "TIME", "isRequired": true, "pickerType": "TIME_PICKER" },
+    { "slotName": "destination", "intentId": "maps.navigate", "displayName": "Destination", "slotType": "LOCATION", "isRequired": true, "pickerType": "LOCATION_PICKER" }
+  ],
+  "utterances": [],
+  "entities": [],
+  "capabilities": [
+    { "capabilityId": "plugin.telephony", "providerType": "ANDROID_PLUGIN", "supportedIntentIds": ["messaging.send", "phone.call"], "displayName": "Telephony Plugin", "isOfflineCapable": true, "priority": 100 }
+  ],
+  "intentSchemas": [],
+  "executionRules": [
+    { "ruleId": "rule_msg_send", "intentId": "messaging.send", "timeoutMs": 5000, "maxRetries": 2, "isIdempotent": false }
+  ],
+  "permissions": [
+    { "permissionId": "perm_sms", "androidPermission": "android.permission.SEND_SMS", "rationale": "Required to send SMS messages", "isMandatory": true }
+  ],
+  "uiSchemas": [],
+  "actions": [
+    { "actionId": "act_sms", "intentId": "messaging.send", "handlerId": "plugin.telephony", "actionType": "PLUGIN" }
+  ],
+  "validationRules": [
+    { "ruleId": "val_phone", "slotName": "recipient", "pattern": "^[a-zA-Z0-9 ]+$", "errorMessage": "Invalid recipient format" }
+  ],
+  "dependencies": []
+}
